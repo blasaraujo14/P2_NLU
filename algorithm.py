@@ -228,7 +228,7 @@ class ArcEager():
             bool: True if a LEFT-ARC transition is the correct action in the current state, False otherwise.
         """
 
-        return (state.B[0].id, state.B[0].dep, state.S[-1].id) in self.gold_arcs
+        return state.B[0].id == state.S[-1].head
     
     def RA_is_correct(self, state: State) -> bool:
         """
@@ -243,7 +243,7 @@ class ArcEager():
         Returns:
             bool: True if a RIGHT-ARC transition is the correct action in the current state, False otherwise.
         """
-        return (state.S[-1].id, state.S[-1].dep, state.B[0].id) in self.gold_arcs
+        return state.S[-1].id == state.B[0].head
 
     def RA_is_valid(self, state: State) -> bool:
         """
@@ -336,12 +336,12 @@ class ArcEager():
         while not self.final_state(state):
             
             if self.LA_is_valid(state) and self.LA_is_correct(state):
-                transition = Transition(self.LA, state.B[0].dep)
+                transition = Transition(self.LA, state.S[-1].dep)
                 samples.append(Sample(state, transition))
                 self.apply_transition(state,transition)
 
             elif self.RA_is_valid(state) and self.RA_is_correct(state):
-                transition = Transition(self.RA, state.S[-1].dep)
+                transition = Transition(self.RA, state.B[0].dep)
                 samples.append(Sample(state, transition))
                 self.apply_transition(state,transition)
 
@@ -392,13 +392,13 @@ class ArcEager():
 
         if t == self.LA and self.LA_is_valid(state):
             # Add an arc to the state from the top of the buffer to the top of the stack
-            state.A.add((b, dep, s))
+            state.A.add((b.id, dep, s.id))
             # Remove from the state the top word from the stack
             state.S.pop()
 
         elif t == self.RA and self.RA_is_valid(state):
             # Add an arc to the state from the stack top to the buffer head with the specified dependency
-            state.A.add((s, dep, b))
+            state.A.add((s.id, dep, b.id))
             # Move from the state the buffer head to the stack
             state.S.append(b) 
             # Remove from the state the first item from the buffer
@@ -447,8 +447,6 @@ class ArcEager():
 
 
 if __name__ == "__main__":
-
-    '''
     print("**************************************************")
     print("*               Arc-eager function               *")
     print("**************************************************\n")
@@ -465,6 +463,9 @@ if __name__ == "__main__":
     ]
 
     arc_eager = ArcEager()
+    print(arc_eager.oracle(tree)[-1]._state)
+
+    '''
     print("Initial state")
     state = arc_eager.create_initial_state(tree)
     print(state)
@@ -478,10 +479,10 @@ if __name__ == "__main__":
     print("State after applying the SHIFT transition:")
     print(state, "\n")
 
+
     #Obtaining the gold_arcs of the sentence with the function gold_arcs
     gold_arcs = arc_eager.gold_arcs(tree)
     print (f"Set of gold arcs: {gold_arcs}\n\n")
-
 
     print("**************************************************")
     print("*  Creating instances of the class Transition    *")
@@ -524,19 +525,3 @@ if __name__ == "__main__":
     # To display the created Sample instance
     print("Sample:\n", sample_instance)
     '''
-    tree = [
-        Token(0, "ROOT", "ROOT", "ROOT_UPOS", "_", "_", "_", "_"),
-        Token(1, "Distribution", "distribution", "NOUN", "_", "Number=Sing", 7, "nsubj"),
-        Token(2, "of", "cat", "ADP", "_", "Number=Sing", 4, "case"),
-        Token(3, "this", "be", "DET", "_", "Mood=Ind|Tense=Pres|VerbForm=Fin", 4, "det"),
-        Token(4, "license", "sleep", "NOUN", "_", "VerbForm=Ger", 0, "nmod"),
-        Token(5, ".", ".", "PUNCT", "_", "_", 4, "punct")
-    ]
-    arc_eager = ArcEager()
-    print("Initial state")
-    state = arc_eager.create_initial_state(tree)
-    #transition1 = Transition(arc_eager.SHIFT)
-    #arc_eager.apply_transition(state, transition1)
-    print(state.S[-1].form == 'ROOT')
-    sample = Sample(state, None)
-    print(sample.state_to_feats())
