@@ -1,5 +1,6 @@
 from state import State
 from conllu_token import Token
+from copy import deepcopy
 
 
 class Transition(object):
@@ -284,8 +285,8 @@ class ArcEager():
         """
 
         id = state.S[-1].id
-        for (k,_,_) in state.A:
-            if k == id:
+        for b in state.B:
+            if b.head == id:
                 return False
         return True
 
@@ -337,30 +338,25 @@ class ArcEager():
             
             if self.LA_is_valid(state) and self.LA_is_correct(state):
                 transition = Transition(self.LA, state.S[-1].dep)
-                samples.append(Sample(state, transition))
-                self.apply_transition(state,transition)
 
             elif self.RA_is_valid(state) and self.RA_is_correct(state):
                 transition = Transition(self.RA, state.B[0].dep)
-                samples.append(Sample(state, transition))
-                self.apply_transition(state,transition)
 
             elif self.REDUCE_is_valid(state) and self.REDUCE_is_correct(state):
                 transition = Transition(self.REDUCE)
-                samples.append(Sample(state, transition))
-                self.apply_transition(state,transition)
             else:
                 #If no other transiton can be applied, it's a SHIFT transition
                 transition = Transition(self.SHIFT)
-                #Add current state 'state' (the input) and the transition taken (the desired output) to the list of samples
-                samples.append(Sample(state, transition))
-                #Update the state by applying the SHIFT transition using the function apply_transition
-                self.apply_transition(state,transition)
+
+            #Add current state 'state' (the input) and the transition taken (the desired output) to the list of samples
+            samples.append(Sample(deepcopy(state), transition))
+            #Update the state by applying the SHIFT transition using the function apply_transition
+            self.apply_transition(state,transition)
 
 
         #When the oracle ends, the generated arcs must
         #match exactly the gold arcs, otherwise the obtained sequence of transitions is not correct
-        assert self.gold_arcs(sent) == state.A, f"Gold arcs {self.gold_arcs(sent)} and generated arcs {state.A} do not match"
+        assert self.gold_arcs(sent) == state.A, f"Gold arcs {self.gold_arcs(sent)} and generated arcs {state.A} do not match {self.gold_arcs(sent)-state.A}"
     
         return samples         
     
@@ -404,16 +400,16 @@ class ArcEager():
             # Remove from the state the first item from the buffer
             del state.B[:1]
 
-        elif t == self.REDUCE and self.has_head(s, state.A): 
+        elif t == self.REDUCE and self.REDUCE_is_valid(state):
             # Remove from state the word from the top of the stack
             state.S.pop()
 
         else:
             # SHIFT transition logic: Already implemented! Use it as a basis to implement the others
             #This involves moving the top of the buffer to the stack
-            state.S.append(b) 
+            state.S.append(b)
+            # Remove from the state the first item from the buffer
             del state.B[:1]
-    
 
 
     def gold_arcs(self, sent: list['Token']) -> set:
