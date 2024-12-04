@@ -49,6 +49,20 @@ print ("\n ------ TODO: Implement the rest of the assignment ------")
 # TODO: Implement the 'state_to_feats' function in the Sample class.
 # This function should convert the current parser state into a list of features for use by the neural model classifier.
 
+import numpy as np
+
+def getFeatsTargets(trees):
+    samples = np.concat([arc_eager.oracle(tree) for tree in trees], 0)
+    feats = np.array([sample.state_to_feats() for sample in samples])
+    targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
+
+    return feats, targets
+
+feats, targets = getFeatsTargets(train_trees[:10])
+
+print(feats.shape)
+print(targets.shape)
+
 # TODO: Define and implement the neural model in the 'model.py' module.
 # 1. Train the model on the generated training dataset.
 # 2. Evaluate the model's performance using the development dataset.
