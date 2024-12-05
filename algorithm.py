@@ -121,9 +121,9 @@ class Sample(object):
         padStack = ['<PAD>' for _ in range(nstack_feats - len(stack))]
         padBuffer = ['<PAD>' for _ in range(nbuffer_feats - len(buffer))]
         l = []
-        l += padStack + [token.form for token in stack[:nstack_feats]]
+        l += padStack + [token.form for token in stack[-nstack_feats:]]
         l += [token.form for token in buffer[:nbuffer_feats]] + padBuffer
-        l += padStack + [token.upos for token in stack[:nstack_feats]]
+        l += padStack + [token.upos for token in stack[-nstack_feats:]]
         l += [token.upos for token in buffer[:nbuffer_feats]] + padBuffer
         return l
     

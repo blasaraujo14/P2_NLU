@@ -1,6 +1,7 @@
 
 from conllu_reader import ConlluReader
 from algorithm import ArcEager
+import numpy as np
 
 def read_file(reader, path, inference):
     trees = reader.read_conllu_file(path, inference)
@@ -49,19 +50,36 @@ print ("\n ------ TODO: Implement the rest of the assignment ------")
 # TODO: Implement the 'state_to_feats' function in the Sample class.
 # This function should convert the current parser state into a list of features for use by the neural model classifier.
 
-import numpy as np
+build_datasets = False
 
 def getFeatsTargets(trees):
-    samples = np.concat([arc_eager.oracle(tree) for tree in trees], 0)
+    samples = np.concatenate([arc_eager.oracle(tree) for tree in trees], 0)
     feats = np.array([sample.state_to_feats() for sample in samples])
     targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
 
     return feats, targets
 
-feats, targets = getFeatsTargets(train_trees[:10])
+for sample in arc_eager.oracle(train_trees[1]):
+    print(sample.state, end='')
+    print(sample.state_to_feats())
+    print(sample.transition)
+    print()
 
-print(feats.shape)
-print(targets.shape)
+if build_datasets:
+    feats, targets = getFeatsTargets(train_trees)
+
+    np.save("inputsTrain.npy", feats)
+    np.save("targetsTrain.npy", targets)
+
+    feats, targets = getFeatsTargets(dev_trees)
+
+    np.save("inputsVal.npy", feats)
+    np.save("targetsVal.npy", targets)
+
+    #feats, targets = getFeatsTargets(test_trees)
+
+    #np.save("inputsTest.npy", feats)
+    #np.save("targetsTest.npy", targets)
 
 # TODO: Define and implement the neural model in the 'model.py' module.
 # 1. Train the model on the generated training dataset.

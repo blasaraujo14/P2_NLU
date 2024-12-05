@@ -1,5 +1,14 @@
 from conllu_token import Token
+from conllu_reader import ConlluReader
+from algorithm import ArcEager, Sample, Transition
+import numpy as np
 import tensorflow as tf
+import keras
+from keras import Model
+from keras.layers import TextVectorization
+from keras.models import Sequential
+from keras import layers
+from keras.layers import Input, Dense, Embedding, TimeDistributed, LSTM
 
 class ParserMLP:
     """
@@ -34,6 +43,10 @@ class ParserMLP:
 
     def __init__(self, word_emb_dim: int = 100, hidden_dim: int = 64, 
                  epochs: int = 1, batch_size: int = 64):
+        self.word_emb_dim = word_emb_dim
+        self.hidden_dim = hidden_dim
+        self.epoch = epochs
+        self.batch_size = batch_size
         """
         Initializes the ParserMLP class with the specified dimensions and training parameters.
 
@@ -43,7 +56,23 @@ class ParserMLP:
             epochs (int): The number of epochs for training the model.
             batch_size (int): The batch size used during model training.
         """
-        raise NotImplementedError
+        #raise NotImplementedError
+
+    def buildEncoding(data, init):
+        encoding = {}
+        code = init
+        for text in data:
+            if text not in encoding:
+                encoding[text] = code # for encoding
+                encoding[code] = text # for decoding
+                code += 1
+        return encoding
+
+    def buildTargets(targets, actionEncoding, depEncoding):
+        actions = tf.convert_to_tensor([actionEncoding[t[0]] for t in targets])
+        dep = tf.convert_to_tensor([depEncoding.get(t[1], 0) for t in targets])
+        targets = tf.concat([tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(dep)], axis=-1)
+        return targets
     
     def train(self, training_samples: list['Sample'], dev_samples: list['Sample']):
         """
@@ -56,7 +85,47 @@ class ParserMLP:
             training_samples (list[Sample]): A list of training samples for the parser.
             dev_samples (list[Sample]): A list of development samples used for model validation.
         """
-        raise NotImplementedError
+
+        featsTrain = tf.convert_to_tensor([' '.join(sample.state_to_feats()) for sample in training_samples])
+        targetsTrain = np.array([[sample.transition.action, sample.transition.dependency] for sample in training_samples])
+
+        featsDev = tf.convert_to_tensor([' '.join(sample.state_to_feats()) for sample in dev_samples])
+        targetsDev = np.array([[sample.transition.action, sample.transition.dependency] for sample in dev_samples])
+
+        codeActions = [sentence[0] for sentence in targetsTrain]
+        codeDeps = [sentence[1] for sentence in targetsTrain]
+        actionEncoding = ParserMLP.buildEncoding(codeActions, 0)
+        depEncoding = ParserMLP.buildEncoding(codeDeps, 1)
+
+        targetsTrain = ParserMLP.buildTargets(targetsTrain, actionEncoding, depEncoding)
+        targetsDev = ParserMLP.buildTargets(targetsDev, actionEncoding, depEncoding)
+
+        #text_vectorizer = layers.TextVectorization(output_sequence_length=100)
+        text_vectorizer = layers.TextVectorization(output_mode='int', output_sequence_length=8)
+        text_vectorizer.adapt(featsTrain)
+
+        inputs = keras.Input(shape=(1,),dtype=tf.string)
+        x = text_vectorizer(inputs)
+        vocab_size = text_vectorizer.vocabulary_size()
+
+        x = layers.Embedding(input_dim=vocab_size, output_dim=self.word_emb_dim)(x)
+        x = layers.Dense(self.hidden_dim, activation='sigmoid')(x)
+        x = layers.GlobalMaxPooling1D()(x)
+        outputs = layers.Dense(len(actionEncoding)/2+len(depEncoding)/2+1, activation='softmax')(x)
+        self.model = keras.Model(inputs=inputs, outputs=outputs)
+
+        self.model.summary()
+
+        self.model.compile(
+            optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        print(featsTrain[0])
+
+        self.model.fit(featsTrain, targetsTrain, batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, targetsDev))
+
+        #raise NotImplementedError
 
     def evaluate(self, samples: list['Sample']):
         """
@@ -68,7 +137,16 @@ class ParserMLP:
         Parameters:
             samples (list[Sample]): A list of samples to evaluate the model's performance.
         """
-        raise NotImplementedError
+        inputs = tf.convert_to_tensor([' '.join(sample.state_to_feats()) for sample in samples])
+        targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
+        codeActions = [sentence[0] for sentence in targets]
+        codeDeps = [sentence[1] for sentence in targets]
+        actionEncoding = ParserMLP.buildEncoding(codeActions, 0)
+        depEncoding = ParserMLP.buildEncoding(codeDeps, 1)
+
+        targets = ParserMLP.buildTargets(targets, actionEncoding, depEncoding)
+        self.model.evaluate(inputs, targets)
+        #raise NotImplementedError
     
     def run(self, sents: list['Token']):
         """
@@ -81,6 +159,21 @@ class ParserMLP:
             sents (list[Token]): A list of sentences, where each sentence is represented 
                                  as a list of Token objects.
         """
+        '''
+        def getTransition(output):
+            action = output[-4:]
+            print (action)
+            dep = output[:-4]
+            print(dep)
+            #transition = Transition(action, dep)
+            return 1
+        arc_eager = ArcEager()
+        initial_state = arc_eager.create_initial_state(sents)
+        feats = tf.convert_to_tensor([' '.join(Sample(initial_state, transition=None).state_to_feats())])
+        #feats = tf.convert_to_tensor([Sample(initial_state, transition=None).state_to_feats()])
+        output = self.model(feats)
+        transition = getTransition(output[0])
+        '''
 
         # Main Steps for Processing Sentences:
         # 1. Initialize: Create the initial state for each sentence.
@@ -98,5 +191,33 @@ class ParserMLP:
 
 
 if __name__ == "__main__":
+    def read_file(reader, path, inference):
+        trees = reader.read_conllu_file(path, inference)
+        #print(f"Read a total of {len(trees)} sentences from {path}")
+        #print (f"Printing the first sentence of the training set... trees[0] = {trees[0]}")
+        #for token in trees[0]:
+            #print (token)
+        #print ()
+        return trees
     
-    model = ParserMLP()
+    model = ParserMLP(epochs=10)
+    reader = ConlluReader()
+    arc_eager = ArcEager()
+    train_trees = read_file(reader,path="en_partut-ud-train_clean.conllu", inference=False)
+    dev_trees = read_file(reader,path="en_partut-ud-dev_clean.conllu", inference=False)
+    test_trees = read_file(reader,path="en_partut-ud-test_clean.conllu", inference=True)
+
+    """
+    We remove the non-projective sentences from the training and development set,
+    as the Arc-Eager algorithm cannot parse non-projective sentences.
+
+    We don't remove them from test set set, because for those we only will do inference
+    """
+    train_trees = reader.remove_non_projective_trees(train_trees)[:100]
+    dev_trees = reader.remove_non_projective_trees(dev_trees)[:50]
+    samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
+    samplesD = np.concatenate([arc_eager.oracle(tree) for tree in dev_trees], 0)
+    #samplesTest = np.concatenate([arc_eager.oracle(tree) for tree in test_trees], 0)
+
+    model.train(samplesT, samplesD)
+    model.run(train_trees[0])
