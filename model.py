@@ -58,7 +58,7 @@ class ParserMLP:
         """
         #raise NotImplementedError
 
-    def buildEncoding(data, init):
+    def buildEncoding(self, data, init):
         encoding = {}
         code = init
         for text in data:
@@ -68,10 +68,12 @@ class ParserMLP:
                 code += 1
         return encoding
 
-    def buildTargets(targets, actionEncoding, depEncoding):
-        actions = tf.convert_to_tensor([actionEncoding[t[0]] for t in targets])
-        dep = tf.convert_to_tensor([depEncoding.get(t[1], 0) for t in targets])
-        targets = tf.concat([tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(dep)], axis=-1)
+    def buildTargets(self, targets):
+        actions = tf.convert_to_tensor([self.actionEncoding[t[0]] for t in targets])
+        deps = tf.convert_to_tensor([self.depEncoding.get(t[1], 0) for t in targets])
+        
+        #return [(action, dep) for action, dep in zip(actions, deps)]
+        targets = tf.concat([tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(deps)], axis=-1)
         return targets
     
     def train(self, training_samples: list['Sample'], dev_samples: list['Sample']):
@@ -94,11 +96,11 @@ class ParserMLP:
 
         codeActions = [sentence[0] for sentence in targetsTrain]
         codeDeps = [sentence[1] for sentence in targetsTrain]
-        actionEncoding = ParserMLP.buildEncoding(codeActions, 0)
-        depEncoding = ParserMLP.buildEncoding(codeDeps, 1)
+        self.actionEncoding = self.buildEncoding(codeActions, 0)
+        self.depEncoding = self.buildEncoding(codeDeps, 1)
 
-        targetsTrain = ParserMLP.buildTargets(targetsTrain, actionEncoding, depEncoding)
-        targetsDev = ParserMLP.buildTargets(targetsDev, actionEncoding, depEncoding)
+        targetsTrain = self.buildTargets(targetsTrain)
+        targetsDev = self.buildTargets(targetsDev)
 
         #text_vectorizer = layers.TextVectorization(output_sequence_length=100)
         text_vectorizer = layers.TextVectorization(output_mode='int', output_sequence_length=8)
@@ -109,21 +111,30 @@ class ParserMLP:
         vocab_size = text_vectorizer.vocabulary_size()
 
         x = layers.Embedding(input_dim=vocab_size, output_dim=self.word_emb_dim)(x)
+        x = layers.Flatten()(x)
         x = layers.Dense(self.hidden_dim, activation='sigmoid')(x)
-        x = layers.GlobalMaxPooling1D()(x)
-        outputs = layers.Dense(len(actionEncoding)/2+len(depEncoding)/2+1, activation='softmax')(x)
+        #x = layers.GlobalMaxPooling1D()(x)
+        '''
+        outputsAction = layers.Dense(len(self.actionEncoding)/2, activation='softmax')(x)
+        outputsDep = layers.Dense(len(self.depEncoding)/2+1, activation='softmax')(x)
+        self.model = keras.Model(inputs=inputs, outputs=(outputsDep,outputsAction))
+        '''
+
+        outputs = layers.Dense(len(self.actionEncoding)/2+len(self.depEncoding)/2+1, activation='softmax')(x)
         self.model = keras.Model(inputs=inputs, outputs=outputs)
 
         self.model.summary()
 
         self.model.compile(
-            optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+            optimizer=tf.keras.optimizers.Adam(learning_rate=0.00005),
             loss='categorical_crossentropy',
             metrics=['accuracy']
         )
-        print(featsTrain[0])
 
-        self.model.fit(featsTrain, targetsTrain, batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, targetsDev))
+        callback = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+
+        self.model.fit(featsTrain, targetsTrain, batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, targetsDev), callbacks=[callback])
+        #self.model.fit(featsTrain, (deps,actions), batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, (depsD,actionsD)), callbacks=[callback])
 
         #raise NotImplementedError
 
@@ -139,12 +150,7 @@ class ParserMLP:
         """
         inputs = tf.convert_to_tensor([' '.join(sample.state_to_feats()) for sample in samples])
         targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
-        codeActions = [sentence[0] for sentence in targets]
-        codeDeps = [sentence[1] for sentence in targets]
-        actionEncoding = ParserMLP.buildEncoding(codeActions, 0)
-        depEncoding = ParserMLP.buildEncoding(codeDeps, 1)
-
-        targets = ParserMLP.buildTargets(targets, actionEncoding, depEncoding)
+        targets = self.buildTargets(targets)
         self.model.evaluate(inputs, targets)
         #raise NotImplementedError
     
@@ -159,21 +165,68 @@ class ParserMLP:
             sents (list[Token]): A list of sentences, where each sentence is represented 
                                  as a list of Token objects.
         """
-        '''
-        def getTransition(output):
-            action = output[-4:]
-            print (action)
-            dep = output[:-4]
-            print(dep)
-            #transition = Transition(action, dep)
-            return 1
         arc_eager = ArcEager()
-        initial_state = arc_eager.create_initial_state(sents)
-        feats = tf.convert_to_tensor([' '.join(Sample(initial_state, transition=None).state_to_feats())])
-        #feats = tf.convert_to_tensor([Sample(initial_state, transition=None).state_to_feats()])
-        output = self.model(feats)
-        transition = getTransition(output[0])
-        '''
+        states = [arc_eager.create_initial_state(sent) for sent in sents]
+        arcs = []
+
+        def decodeTargets(targets, encoding):
+            # from categorical to original encoding
+            originalEncoding = tf.argmax(targets, axis=1)
+            def fn(target):
+                out = encoding.get(target.numpy(), "unk")
+                if out is None:
+                    return 'None'
+                return out
+
+            return tf.map_fn(fn=fn,
+                        elems=originalEncoding,
+                        fn_output_signature=tf.string)
+        
+        def selectActions(sortedActions, index):
+            index = index.numpy()
+            action = ''
+            for i in sortedActions[::-1]:
+                action = self.actionEncoding[i.numpy()]
+                if action == arc_eager.LA:
+                    if arc_eager.LA_is_valid(states[index]):
+                        break
+                elif action == arc_eager.RA:
+                    if arc_eager.RA_is_valid(states[index]):
+                        break
+                elif action == arc_eager.REDUCE:
+                    if arc_eager.REDUCE_is_valid(states[index]):
+                        break
+                else:
+                    break
+            return action
+        def removeSentence(state):
+            states.remove(state)
+            arcs.append(state.A)
+            print(state.A)
+
+        cnt = 1
+        while(len(states)!=0):
+            print("Iteration " + str(cnt))
+            feats = tf.convert_to_tensor([[' '.join(Sample(state, None).state_to_feats())] for state in states])
+            outputs = self.model(feats)
+            actions = outputs[:,-4:]
+            sorted_actions = np.argsort(actions, axis=-1)
+            #print("Sorted indexes: " + str(sorted_actions))
+            selected_actions = tf.map_fn(
+                lambda x: selectActions(x[0], x[1]), (sorted_actions, tf.range(len(states))),
+                fn_output_signature=tf.string)
+            #tf.map_fn(fn=selectActions,elems=sorted_actions,fn_output_signature=tf.string)
+            deps = outputs[:,:-4]
+            #print("Outupt dependency values: " + str(dep))
+            deps = list(decodeTargets(deps, self.depEncoding).numpy())
+            #print("Dependency: " + str(dep))
+            deps = [dep.decode('utf-8') for dep in deps]
+            #print("Dependency: " + dep)
+            [arc_eager.apply_transition(states[i], Transition(selected_actions[i], deps[i])) for i in range(len(states))]
+            [removeSentence(state) if arc_eager.final_state(state) else None for state in states]
+            print()
+            cnt += 1
+        return arcs
 
         # Main Steps for Processing Sentences:
         # 1. Initialize: Create the initial state for each sentence.
@@ -187,7 +240,7 @@ class ParserMLP:
         # 8. Iterative Process: Repeat steps 2 to 7 until all sentences have reached their final state.
 
 
-        raise NotImplementedError
+        #raise NotImplementedError
 
 
 if __name__ == "__main__":
@@ -199,25 +252,28 @@ if __name__ == "__main__":
             #print (token)
         #print ()
         return trees
+    train = True
+    model = ParserMLP(epochs=5)
+    if train:
+        reader = ConlluReader()
+        arc_eager = ArcEager()
+
+        train_trees = read_file(reader,path="en_partut-ud-train_clean.conllu", inference=False)
+        dev_trees = read_file(reader,path="en_partut-ud-dev_clean.conllu", inference=False)
+        test_trees = read_file(reader,path="en_partut-ud-test_clean.conllu", inference=True)
+
+        """
+        We remove the non-projective sentences from the training and development set,
+        as the Arc-Eager algorithm cannot parse non-projective sentences.
+
+        We don't remove them from test set set, because for those we only will do inference
+        """
+        train_trees = reader.remove_non_projective_trees(train_trees)[:100]
+        dev_trees = reader.remove_non_projective_trees(dev_trees)[:50]
+        samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
+        samplesD = np.concatenate([arc_eager.oracle(tree) for tree in dev_trees], 0)
+
+        model.train(samplesT, samplesD)
+    model.evaluate(samplesD)
+    #print(model.run(test_trees))
     
-    model = ParserMLP(epochs=10)
-    reader = ConlluReader()
-    arc_eager = ArcEager()
-    train_trees = read_file(reader,path="en_partut-ud-train_clean.conllu", inference=False)
-    dev_trees = read_file(reader,path="en_partut-ud-dev_clean.conllu", inference=False)
-    test_trees = read_file(reader,path="en_partut-ud-test_clean.conllu", inference=True)
-
-    """
-    We remove the non-projective sentences from the training and development set,
-    as the Arc-Eager algorithm cannot parse non-projective sentences.
-
-    We don't remove them from test set set, because for those we only will do inference
-    """
-    train_trees = reader.remove_non_projective_trees(train_trees)[:100]
-    dev_trees = reader.remove_non_projective_trees(dev_trees)[:50]
-    samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
-    samplesD = np.concatenate([arc_eager.oracle(tree) for tree in dev_trees], 0)
-    #samplesTest = np.concatenate([arc_eager.oracle(tree) for tree in test_trees], 0)
-
-    model.train(samplesT, samplesD)
-    model.run(train_trees[0])
