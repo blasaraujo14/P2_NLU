@@ -1,6 +1,8 @@
 
 from conllu_reader import ConlluReader
 from algorithm import ArcEager
+from model import ParserMLP
+from postprocessor import PostProcessor
 import numpy as np
 
 def read_file(reader, path, inference):
@@ -35,7 +37,7 @@ dev_trees = reader.remove_non_projective_trees(dev_trees)
 print ("Total training trees after removing non-projective sentences", len(train_trees))
 print ("Total dev trees after removing non-projective sentences", len(dev_trees))
 
-#Create and instance of the ArcEager
+#Create an instance of the ArcEager
 arc_eager = ArcEager()
 
 print ("\n ------ TODO: Implement the rest of the assignment ------")
@@ -50,36 +52,17 @@ print ("\n ------ TODO: Implement the rest of the assignment ------")
 # TODO: Implement the 'state_to_feats' function in the Sample class.
 # This function should convert the current parser state into a list of features for use by the neural model classifier.
 
+print("Getting the sample datasets.")
 build_datasets = False
 
-def getFeatsTargets(trees):
-    samples = np.concatenate([arc_eager.oracle(tree) for tree in trees], 0)
-    feats = np.array([sample.state_to_feats() for sample in samples])
-    targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
-
-    return feats, targets
-
-for sample in arc_eager.oracle(train_trees[1]):
-    print(sample.state, end='')
-    print(sample.state_to_feats())
-    print(sample.transition)
-    print()
-
 if build_datasets:
-    feats, targets = getFeatsTargets(train_trees)
+    samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
+    samplesD = np.concatenate([arc_eager.oracle(tree) for tree in dev_trees], 0)
 
-    np.save("inputsTrain.npy", feats)
-    np.save("targetsTrain.npy", targets)
-
-    feats, targets = getFeatsTargets(dev_trees)
-
-    np.save("inputsVal.npy", feats)
-    np.save("targetsVal.npy", targets)
-
-    #feats, targets = getFeatsTargets(test_trees)
-
-    #np.save("inputsTest.npy", feats)
-    #np.save("targetsTest.npy", targets)
+    np.save("samplesTrain.npy", samplesT)
+    np.save("samplesDev.npy", samplesD)
+else:
+    samplesT, samplesD = np.load("samplesTrain.npy", allow_pickle=True), np.load("samplesDev.npy", allow_pickle=True)
 
 # TODO: Define and implement the neural model in the 'model.py' module.
 # 1. Train the model on the generated training dataset.
@@ -87,8 +70,29 @@ if build_datasets:
 # 3. Conduct inference on the test set with the trained model.
 # 4. Save the parsing results of the test set in CoNLLU format for further analysis.
 
+print("Starting inference process.")
+make_inferences = True
+corruptedPath = "corrupted_inferences.conllu"
+
+if make_inferences:
+    model = ParserMLP(epochs=10)
+
+    model.train(samplesT, samplesD)
+    model.evaluate(samplesD)
+
+    # make inferences and writing them in CoNLLU format.
+    inferences = model.run(test_trees)
+    reader.write_conllu_file(corruptedPath, inferences)
+
 # TODO: Utilize the 'postprocessor' module (already implemented).
 # 1. Read the output saved in the CoNLLU file and address any issues with ill-formed trees.
 # 2. Specify the file path: path = "<YOUR_PATH_TO_OUTPUT_FILE>"
 # 3. Process the file: trees = postprocessor.postprocess(path)
 # 4. Save the processed trees to a new output file.
+
+print("Post-processing inferences.")
+inferences = reader.read_conllu_file(corruptedPath, inference=False)
+
+p = PostProcessor()
+trees = p.postprocess(corruptedPath)
+reader.write_conllu_file("inferences.conllu", inferences)
