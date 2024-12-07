@@ -252,13 +252,6 @@ class ParserMLP:
 
             return sent
 
-        '''
-        reader = ConlluReader()
-        print(reader.tree2conllustr(sents[1]))
-        print()
-        print(reader.tree2conllustr(toCoNLLU(sents[1], transLists[1])))'''
-
-
         return [toCoNLLU(sents[i], transLists[i]) for i in range(len(sents))]
 
         # Main Steps for Processing Sentences:

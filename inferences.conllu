@@ -16,8 +16,8 @@
 10	under	under	ADP	E	_	12	case	_	_
 11	this	this	DET	DD	Number=Sing|PronType=Dem	12	det	_	_
 12	license	license	NOUN	S	Number=Sing	9	obl	_	_
-13	or	or	CCONJ	CC	_	_	_	_	_
-14	copyright	copyright	NOUN	S	Number=Sing	_	_	_	_
+13	or	or	CCONJ	CC	_	2	_	_	_
+14	copyright	copyright	NOUN	S	Number=Sing	2	_	_	_
 15	law	law	NOUN	S	Number=Sing	14	nmod	_	_
 16	is	be	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	aux:pass	_	_
 17	prohibited	prohibit	VERB	V	Tense=Past|VerbForm=Part	15	nsubj:pass	_	_
@@ -164,7 +164,7 @@
 13	case	case	NOUN	S	Number=Sing	3	obl	_	_
 14	.	.	PUNCT	FS	_	3	punct	_	_
 
-1	Transport	transport	NOUN	S	Number=Sing	_	_	_	_
+1	Transport	transport	NOUN	S	Number=Sing	0	_	_	_
 2	safety	safety	NOUN	S	Number=Sing	1	nmod	_	_
 3	has	have	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	aux	_	_
 4	sadly	sadly	ADV	B	_	8	advmod	_	_
@@ -207,7 +207,7 @@
 30	for	for	ADP	E	_	32	case	_	_
 31	safety	safety	NOUN	S	Number=Sing	32	nmod	_	_
 32	advisors	advisor	NOUN	S	Number=Plur	27	nmod	_	_
-33	should	shall	AUX	VM	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	_	_	_	_
+33	should	shall	AUX	VM	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	1	_	_	_
 34	also	also	ADV	B	_	36	advmod	_	_
 35	be	be	AUX	VA	VerbForm=Inf	36	aux:pass	_	_
 36	harmonised	harmonize	VERB	V	Tense=Past|VerbForm=Part	33	aux	_	_
@@ -262,7 +262,7 @@
 27	in	in	ADP	E	_	29	case	_	_
 28	this	this	DET	DD	Number=Sing|PronType=Dem	29	det	_	_
 29	area	area	NOUN	S	Number=Sing	21	None	_	_
-30	as	as	ADV	B	_	_	_	_	_
+30	as	as	ADV	B	_	13	_	_	_
 31	well	well	ADV	B	_	30	advmod	_	_
 32	.	.	PUNCT	FS	_	30	None	_	_
 
@@ -318,8 +318,8 @@
 28	are	be	AUX	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	30	cop	_	_
 29	transit	transit	NOUN	S	Number=Sing	30	nmod	_	_
 30	countries	country	NOUN	S	Number=Plur	12	obl	_	_
-31	or	or	CCONJ	CC	_	_	_	_	_
-32	not	not	PART	PART	Polarity=Neg	_	_	_	_
+31	or	or	CCONJ	CC	_	3	_	_	_
+32	not	not	PART	PART	Polarity=Neg	3	_	_	_
 33	.	.	PUNCT	FS	_	32	None	_	_
 
 1	I	I	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
@@ -368,7 +368,7 @@
 29	the	the	DET	RD	Definite=Def|PronType=Art	30	det	_	_
 30	efforts	effort	NOUN	S	Number=Plur	27	nmod	_	_
 31	towards	towards	ADP	E	_	32	case	_	_
-32	harmonisation	harmonization	NOUN	S	Number=Sing	_	_	_	_
+32	harmonisation	harmonization	NOUN	S	Number=Sing	3	_	_	_
 33	being	be	AUX	VA	VerbForm=Ger	32	None	_	_
 34	made	make	VERB	V	Tense=Past|VerbForm=Part	32	acl	_	_
 35	by	by	ADP	E	_	38	case	_	_
@@ -590,7 +590,7 @@
 20	of	of	ADP	E	_	22	case	_	_
 21	the	the	DET	RD	Definite=Def|PronType=Art	22	det	_	_
 22	amendments	amendment	NOUN	S	Number=Plur	16	obj	_	_
-23	that	that	PRON	PR	PronType=Rel	_	_	_	_
+23	that	that	PRON	PR	PronType=Rel	3	_	_	_
 24	have	have	AUX	VA	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	26	aux	_	_
 25	been	be	AUX	VA	Tense=Past|VerbForm=Part	26	aux:pass	_	_
 26	tabled	table	VERB	V	Tense=Past|VerbForm=Part	23	nsubj:pass	_	_
@@ -599,8 +599,8 @@
 29	report	report	NOUN	S	Number=Sing	27	obj	_	_
 30	.	.	PUNCT	FS	_	23	None	_	_
 
-1	It	it	PRON	PE	Number=Sing|Person=3|PronType=Prs	_	_	_	_
-2	contained	contain	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	_	_	_	_
+1	It	it	PRON	PE	Number=Sing|Person=3|PronType=Prs	0	_	_	_
+2	contained	contain	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	1	_	_	_
 3	details	detail	NOUN	S	Number=Plur	2	obl	_	_
 4	and	and	CCONJ	CC	_	5	cc	_	_
 5	issues	issue	NOUN	S	Number=Plur	3	nmod	_	_
@@ -729,9 +729,9 @@
 7	,	,	PUNCT	FF	_	5	None	_	_
 8	by	by	ADP	E	_	9	mark	_	_
 9	saying	say	VERB	V	VerbForm=Ger	3	advcl	_	_
-10	that	that	SCONJ	CS	_	_	_	_	_
+10	that	that	SCONJ	CS	_	3	_	_	_
 11	the	the	DET	RD	Definite=Def|PronType=Art	12	det	_	_
-12	failure	failure	NOUN	S	Number=Sing	_	_	_	_
+12	failure	failure	NOUN	S	Number=Sing	3	_	_	_
 13	of	of	ADP	E	_	17	case	_	_
 14	the	the	DET	RD	Definite=Def|PronType=Art	15	det	_	_
 15	Commission	commission	NOUN	S	Number=Sing	17	nmod	_	_
@@ -820,10 +820,10 @@
 6	the	the	DET	RD	Definite=Def|PronType=Art	7	det	_	_
 7	button	button	NOUN	S	Number=Sing	5	obj	_	_
 8	,	,	PUNCT	FF	_	5	punct	_	_
-9	you	you	PRON	PE	Person=2|PronType=Prs	_	_	_	_
-10	can	can	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	_	_	_	_
+9	you	you	PRON	PE	Person=2|PronType=Prs	5	_	_	_
+10	can	can	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	_	_	_
 11	not	not	PART	PART	Polarity=Neg	12	advmod	_	_
-12	subscribe	subscribe	VERB	V	VerbForm=Inf	_	_	_	_
+12	subscribe	subscribe	VERB	V	VerbForm=Inf	5	_	_	_
 13	.	.	PUNCT	FS	_	12	None	_	_
 
 1	Do	do	AUX	VM	Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin	3	aux	_	_
@@ -912,7 +912,7 @@
 11	country	country	NOUN	S	Number=Sing	9	obl	_	_
 12	,	,	PUNCT	FF	_	9	punct	_	_
 13	including	include	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	9	xcomp	_	_
-14	his	his	PRON	PP	Poss=Yes|PronType=Prs	_	_	_	_
+14	his	his	PRON	PP	Poss=Yes|PronType=Prs	5	_	_	_
 15	own	own	ADJ	A	Degree=Pos	19	nsubj	_	_
 16	,	,	PUNCT	FF	_	19	punct	_	_
 17	and	and	CCONJ	CC	_	19	cc	_	_
@@ -1015,7 +1015,7 @@
 39	protection	protection	NOUN	S	Number=Sing	36	nmod	_	_
 40	.	.	PUNCT	FS	_	6	punct	_	_
 
-1	If	if	SCONJ	CS	_	_	_	_	_
+1	If	if	SCONJ	CS	_	0	_	_	_
 2	momma	momma	NOUN	S	Number=Sing	5	nsubj	_	_
 3	is	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
 4	not	not	PART	PART	Polarity=Neg	5	advmod	_	_
@@ -1024,11 +1024,11 @@
 7	nobody	nobody	PRON	PI	PronType=Ind	10	nsubj	_	_
 8	is	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	10	cop	_	_
 9	not	not	PART	PART	Polarity=Neg	10	advmod	_	_
-10	happy	happy	ADJ	A	Degree=Pos	_	_	_	_
+10	happy	happy	ADJ	A	Degree=Pos	1	_	_	_
 11	.	.	PUNCT	FS	_	10	None	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	Republic	republic	NOUN	S	Number=Sing	_	_	_	_
+2	Republic	republic	NOUN	S	Number=Sing	0	_	_	_
 3	of	of	ADP	E	_	4	case	_	_
 4	Bulgaria	Bulgaria	PROPN	SP	_	2	conj	_	_
 5	and	and	CCONJ	CC	_	6	cc	_	_
@@ -1091,7 +1091,7 @@
 14	.	.	PUNCT	FS	_	2	punct	_	_
 
 1	This	this	DET	DD	Number=Sing|PronType=Dem	2	det	_	_
-2	Treaty	treaty	NOUN	S	Number=Sing	_	_	_	_
+2	Treaty	treaty	NOUN	S	Number=Sing	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
 4	be	be	AUX	VA	VerbForm=Inf	5	aux:pass	_	_
 5	ratified	ratify	VERB	V	Tense=Past|VerbForm=Part	2	obl	_	_
@@ -1112,7 +1112,7 @@
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
 2	instruments	instrument	NOUN	S	Number=Plur	0	root	_	_
 3	of	of	ADP	E	_	4	case	_	_
-4	ratification	ratification	NOUN	S	Number=Sing	_	_	_	_
+4	ratification	ratification	NOUN	S	Number=Sing	2	_	_	_
 5	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	7	aux	_	_
 6	be	be	AUX	VA	VerbForm=Inf	7	aux:pass	_	_
 7	deposited	deposit	VERB	V	Tense=Past|VerbForm=Part	4	acl	_	_
@@ -1127,13 +1127,13 @@
 16	31	31	NUM	N	NumType=Card	7	obl	_	_
 17	December	December	PROPN	SP	_	16	flat	_	_
 18	2006	2006	NUM	N	NumType=Card	17	flat	_	_
-19	at	at	ADP	E	_	_	_	_	_
-20	the	the	DET	RD	Definite=Def|PronType=Art	_	_	_	_
-21	latest	latest	ADJ	A	Degree=Sup	_	_	_	_
+19	at	at	ADP	E	_	2	_	_	_
+20	the	the	DET	RD	Definite=Def|PronType=Art	2	_	_	_
+21	latest	latest	ADJ	A	Degree=Sup	2	_	_	_
 22	.	.	PUNCT	FS	_	21	None	_	_
 
 1	This	this	DET	DD	Number=Sing|PronType=Dem	2	det	_	_
-2	Treaty	treaty	NOUN	S	Number=Sing	_	_	_	_
+2	Treaty	treaty	NOUN	S	Number=Sing	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
 4	enter	enter	VERB	V	VerbForm=Inf	2	obl	_	_
 5	into	into	ADP	E	_	6	case	_	_
@@ -1211,7 +1211,7 @@
 22	.	.	PUNCT	FS	_	4	punct	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	text	text	NOUN	S	Number=Sing	_	_	_	_
+2	text	text	NOUN	S	Number=Sing	0	_	_	_
 3	of	of	ADP	E	_	5	case	_	_
 4	the	the	DET	RD	Definite=Def|PronType=Art	5	det	_	_
 5	Treaty	treaty	NOUN	S	Number=Sing	2	nmod	_	_
@@ -1383,9 +1383,9 @@
 20	provisions	provisions	NOUN	S	Number=Sing	15	nmod	_	_
 21	.	.	PUNCT	FS	_	7	punct	_	_
 
-1	The	the	DET	RD	Definite=Def|PronType=Art	_	_	_	_
-2	last	last	ADJ	NO	Degree=Pos|NumType=Ord	_	_	_	_
-3	programming	programming	NOUN	S	Number=Sing	_	_	_	_
+1	The	the	DET	RD	Definite=Def|PronType=Art	0	_	_	_
+2	last	last	ADJ	NO	Degree=Pos|NumType=Ord	1	_	_	_
+3	programming	programming	NOUN	S	Number=Sing	1	_	_	_
 4	exercise	exercise	NOUN	S	Number=Sing	3	amod	_	_
 5	for	for	ADP	E	_	10	case	_	_
 6	the	the	DET	RD	Definite=Def|PronType=Art	10	det	_	_
@@ -1412,7 +1412,7 @@
 1	Actions	action	NOUN	S	Number=Plur	0	None	_	_
 2	under	under	ADP	E	_	4	case	_	_
 3	these	this	DET	DD	Number=Plur|PronType=Dem	4	det	_	_
-4	programmes	programme	NOUN	S	Number=Plur	_	_	_	_
+4	programmes	programme	NOUN	S	Number=Plur	1	_	_	_
 5	will	will	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	6	aux	_	_
 6	have	have	VERB	V	VerbForm=Inf	4	nsubj	_	_
 7	to	to	PART	PART	_	9	mark	_	_
@@ -1479,10 +1479,10 @@
 19	accession	accession	NOUN	S	Number=Sing	17	nmod	_	_
 20	.	.	PUNCT	FS	_	5	punct	_	_
 
-1	However	however	ADV	B	_	_	_	_	_
+1	However	however	ADV	B	_	0	_	_	_
 2	,	,	PUNCT	FF	_	1	punct	_	_
 3	the	the	DET	RD	Definite=Def|PronType=Art	4	det	_	_
-4	provisions	provision	NOUN	S	Number=Plur	_	_	_	_
+4	provisions	provision	NOUN	S	Number=Plur	1	_	_	_
 5	contained	contain	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	4	acl	_	_
 6	in	in	ADP	E	_	7	case	_	_
 7	Article	article	NOUN	S	Number=Sing	5	obl	_	_
@@ -1499,7 +1499,7 @@
 18	of	of	ADP	E	_	21	case	_	_
 19	the	the	DET	RD	Definite=Def|PronType=Art	21	det	_	_
 20	European	European	ADJ	A	Degree=Pos	21	amod	_	_
-21	Communities	community	NOUN	S	Number=Plur	_	_	_	_
+21	Communities	community	NOUN	S	Number=Plur	1	_	_	_
 22	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	24	aux	_	_
 23	not	not	PART	PART	Polarity=Neg	24	advmod	_	_
 24	apply	apply	VERB	V	VerbForm=Inf	21	obj	_	_
@@ -1539,7 +1539,7 @@
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
 2	committee	committee	NOUN	S	Number=Sing	4	None	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
-4	adopt	adopt	VERB	V	VerbForm=Inf	_	_	_	_
+4	adopt	adopt	VERB	V	VerbForm=Inf	0	_	_	_
 5	its	its	DET	AP	Number=Sing|Poss=Yes|PronType=Prs	6	nmod:poss	_	_
 6	rules	rule	NOUN	S	Number=Plur	4	obj	_	_
 7	of	of	ADP	E	_	8	case	_	_
@@ -1547,13 +1547,13 @@
 9	.	.	PUNCT	FS	_	4	punct	_	_
 
 1	This	this	DET	DD	Number=Sing|PronType=Dem	2	det	_	_
-2	assistance	assistance	NOUN	S	Number=Sing	_	_	_	_
+2	assistance	assistance	NOUN	S	Number=Sing	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
 4	fund	fund	VERB	V	VerbForm=Inf	2	conj	_	_
 5	institution	institution	NOUN	S	Number=Sing	4	obl	_	_
 6	-	-	PUNCT	FF	_	2	punct	_	_
-7	building	build	VERB	V	VerbForm=Part	_	_	_	_
-8	projects	project	NOUN	S	Number=Plur	_	_	_	_
+7	building	build	VERB	V	VerbForm=Part	2	_	_	_
+8	projects	project	NOUN	S	Number=Plur	2	_	_	_
 9	and	and	CCONJ	CC	_	10	cc	_	_
 10	limited	limited	ADJ	A	Degree=Pos	12	amod	_	_
 11	small-scale	small-scale	ADJ	A	Degree=Pos	12	None	_	_
@@ -1580,12 +1580,12 @@
 16	perspective	perspective	NOUN	S	Number=Sing	12	nmod	_	_
 17	.	.	PUNCT	FS	_	5	punct	_	_
 
-1	One	one	NUM	N	NumType=Card	_	_	_	_
+1	One	one	NUM	N	NumType=Card	0	_	_	_
 2	twelfth	twelfth	ADJ	NO	Degree=Pos|NumType=Ord	6	amod	_	_
 3	of	of	ADP	E	_	6	case	_	_
 4	each	each	DET	DI	Number=Sing|PronType=Ind	6	det	_	_
 5	annual	annual	ADJ	A	Degree=Pos	6	None	_	_
-6	amount	amount	NOUN	S	Number=Sing	_	_	_	_
+6	amount	amount	NOUN	S	Number=Sing	1	_	_	_
 7	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	9	aux	_	_
 8	be	be	AUX	V	VerbForm=Inf	9	cop	_	_
 9	payable	payable	ADJ	A	Degree=Pos	6	amod	_	_
@@ -1608,9 +1608,9 @@
 26	.	.	PUNCT	FS	_	6	None	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	lump	lump	NOUN	S	Number=Sing	_	_	_	_
+2	lump	lump	NOUN	S	Number=Sing	0	_	_	_
 3	-	-	PUNCT	FF	_	2	punct	_	_
-4	sum	sum	NOUN	S	Number=Sing	_	_	_	_
+4	sum	sum	NOUN	S	Number=Sing	2	_	_	_
 5	payments	payment	NOUN	S	Number=Plur	4	nmod	_	_
 6	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	8	aux	_	_
 7	be	be	AUX	VA	VerbForm=Inf	8	aux:pass	_	_
@@ -1641,7 +1641,7 @@
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
 2	Commission	commission	NOUN	S	Number=Sing	4	nsubj	_	_
 3	may	may	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
-4	adopt	adopt	VERB	V	VerbForm=Inf	_	_	_	_
+4	adopt	adopt	VERB	V	VerbForm=Inf	0	_	_	_
 5	any	any	DET	DI	PronType=Ind	7	det	_	_
 6	technical	technical	ADJ	A	Degree=Pos	7	amod	_	_
 7	provisions	provision	NOUN	S	Number=Plur	4	obl	_	_
@@ -1667,7 +1667,7 @@
 5	on	on	ADP	E	_	8	None	_	_
 6	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	8	aux	_	_
 7	be	be	AUX	V	VerbForm=Inf	8	cop	_	_
-8	applicable	applicable	ADJ	A	Degree=Pos	_	_	_	_
+8	applicable	applicable	ADJ	A	Degree=Pos	4	_	_	_
 9	forthwith	forthwith	ADV	B	_	12	advmod	_	_
 10	,	,	PUNCT	FF	_	9	None	_	_
 11	shall	shall	AUX	VM	VerbForm=Inf	12	aux	_	_
@@ -1732,7 +1732,7 @@
 23	.	.	PUNCT	FS	_	7	punct	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	measures	measure	NOUN	S	Number=Plur	_	_	_	_
+2	measures	measure	NOUN	S	Number=Plur	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
 4	be	be	AUX	VA	VerbForm=Inf	5	aux:pass	_	_
 5	maintained	maintain	VERB	V	Tense=Past|VerbForm=Part	2	acl	_	_
@@ -1810,7 +1810,7 @@
 25	.	.	PUNCT	FS	_	2	punct	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	measures	measure	NOUN	S	Number=Plur	_	_	_	_
+2	measures	measure	NOUN	S	Number=Plur	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
 4	be	be	AUX	VA	VerbForm=Inf	5	aux:pass	_	_
 5	maintained	maintain	VERB	V	Tense=Past|VerbForm=Part	2	acl	_	_
@@ -1858,7 +1858,7 @@
 
 1	A	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	3	det	_	_
 2	European	European	ADJ	A	Degree=Pos	3	amod	_	_
-3	law	law	NOUN	S	Number=Sing	_	_	_	_
+3	law	law	NOUN	S	Number=Sing	0	_	_	_
 4	of	of	ADP	E	_	6	case	_	_
 5	the	the	DET	RD	Definite=Def|PronType=Art	6	det	_	_
 6	Council	Council	NOUN	S	Number=Sing	8	nsubj	_	_
@@ -1869,7 +1869,7 @@
 11	.	.	PUNCT	FS	_	3	punct	_	_
 
 1	These	this	DET	DD	Number=Plur|PronType=Dem	2	det	_	_
-2	measures	measure	NOUN	S	Number=Plur	_	_	_	_
+2	measures	measure	NOUN	S	Number=Plur	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
 4	be	be	AUX	VA	VerbForm=Inf	5	aux:pass	_	_
 5	taken	take	VERB	V	Tense=Past|VerbForm=Part	2	acl	_	_
@@ -1956,12 +1956,12 @@
 20	.	.	PUNCT	FS	_	10	punct	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	terms	term	NOUN	S	Number=Plur	_	_	_	_
+2	terms	term	NOUN	S	Number=Plur	0	_	_	_
 3	of	of	ADP	E	_	4	case	_	_
 4	office	office	NOUN	S	Number=Sing	2	nmod	_	_
 5	of	of	ADP	E	_	7	case	_	_
 6	the	the	DET	RD	Definite=Def|PronType=Art	7	det	_	_
-7	Members	member	NOUN	S	Number=Plur	_	_	_	_
+7	Members	member	NOUN	S	Number=Plur	2	_	_	_
 8	thus	thus	ADV	B	_	11	advmod	_	_
 9	appointed	appointed	ADJ	A	Degree=Pos	11	advcl	_	_
 10	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	11	aux	_	_
@@ -2035,7 +2035,7 @@
 27	.	.	PUNCT	FS	_	4	punct	_	_
 
 1	This	this	DET	DD	Number=Sing|PronType=Dem	2	det	_	_
-2	Judge	judge	NOUN	S	Number=Sing	_	_	_	_
+2	Judge	judge	NOUN	S	Number=Sing	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
 4	be	be	AUX	VA	VerbForm=Inf	5	aux:pass	_	_
 5	chosen	choose	VERB	V	Tense=Past|VerbForm=Part	2	acl	_	_
@@ -2050,7 +2050,7 @@
 5	of	of	ADP	E	_	8	case	_	_
 6	the	the	DET	RD	Definite=Def|PronType=Art	8	det	_	_
 7	other	other	ADJ	A	Degree=Pos	8	amod	_	_
-8	Judge	judge	NOUN	S	Number=Sing	_	_	_	_
+8	Judge	judge	NOUN	S	Number=Sing	4	_	_	_
 9	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	10	aux	_	_
 10	expire	expire	VERB	V	VerbForm=Inf	8	acl	_	_
 11	on	on	ADP	E	_	12	case	_	_
@@ -2093,7 +2093,7 @@
 5	of	of	ADP	E	_	8	case	_	_
 6	the	the	DET	RD	Definite=Def|PronType=Art	8	det	_	_
 7	other	other	ADJ	A	Degree=Pos	8	amod	_	_
-8	Judge	judge	NOUN	S	Number=Sing	_	_	_	_
+8	Judge	judge	NOUN	S	Number=Sing	4	_	_	_
 9	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	10	aux	_	_
 10	expire	expire	VERB	V	VerbForm=Inf	8	acl	_	_
 11	on	on	ADP	E	_	12	case	_	_
@@ -2199,12 +2199,12 @@
 30	.	.	PUNCT	FS	_	10	punct	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	terms	term	NOUN	S	Number=Plur	_	_	_	_
+2	terms	term	NOUN	S	Number=Plur	0	_	_	_
 3	of	of	ADP	E	_	4	case	_	_
 4	office	office	NOUN	S	Number=Sing	2	nmod	_	_
 5	of	of	ADP	E	_	7	case	_	_
 6	the	the	DET	RD	Definite=Def|PronType=Art	7	det	_	_
-7	members	member	NOUN	S	Number=Plur	_	_	_	_
+7	members	member	NOUN	S	Number=Plur	2	_	_	_
 8	thus	thus	ADV	B	_	11	advmod	_	_
 9	appointed	appointed	ADJ	A	Degree=Pos	11	advcl	_	_
 10	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	11	aux	_	_
@@ -2228,7 +2228,7 @@
 28	.	.	PUNCT	FS	_	7	None	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	terms	term	NOUN	S	Number=Plur	_	_	_	_
+2	terms	term	NOUN	S	Number=Plur	0	_	_	_
 3	of	of	ADP	E	_	4	case	_	_
 4	office	office	NOUN	S	Number=Sing	2	nmod	_	_
 5	of	of	ADP	E	_	9	case	_	_
@@ -2286,7 +2286,7 @@
 28	.	.	PUNCT	FS	_	3	punct	_	_
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
-2	measures	measure	NOUN	S	Number=Plur	_	_	_	_
+2	measures	measure	NOUN	S	Number=Plur	0	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
 4	be	be	AUX	VA	VerbForm=Inf	5	aux:pass	_	_
 5	adopted	adopt	VERB	V	Tense=Past|VerbForm=Part	2	acl	_	_
@@ -2413,8 +2413,8 @@
 21	Protocol	protocol	NOUN	S	Number=Sing	18	obl	_	_
 22	.	.	PUNCT	FS	_	18	punct	_	_
 
-1	Those	that	DET	DD	Number=Plur|PronType=Dem	_	_	_	_
-2	texts	text	NOUN	S	Number=Plur	_	_	_	_
+1	Those	that	DET	DD	Number=Plur|PronType=Dem	0	_	_	_
+2	texts	text	NOUN	S	Number=Plur	1	_	_	_
 3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	9	aux	_	_
 4	be	be	AUX	V	VerbForm=Inf	9	cop	_	_
 5	authentic	authentic	ADJ	A	Degree=Pos	9	amod	_	_
@@ -2460,9 +2460,9 @@
 15	provisionally	provisionally	ADV	B	_	14	advmod	_	_
 16	.	.	PUNCT	FS	_	9	punct	_	_
 
-1	A	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	_	_	_	_
-2	national	national	NOUN	S	Number=Sing	_	_	_	_
-3	base	base	ADJ	A	Degree=Pos	_	_	_	_
+1	A	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	0	_	_	_
+2	national	national	NOUN	S	Number=Sing	1	_	_	_
+3	base	base	ADJ	A	Degree=Pos	1	_	_	_
 4	area	area	NOUN	S	Number=Sing	3	amod	_	_
 5	for	for	ADP	E	_	7	mark	_	_
 6	each	each	DET	DI	Number=Sing|PronType=Ind	7	None	_	_
@@ -2474,12 +2474,12 @@
 12	established	establish	VERB	V	Tense=Past|VerbForm=Part	7	ccomp	_	_
 13	.	.	PUNCT	FS	_	3	None	_	_
 
-1	However	however	ADV	B	_	_	_	_	_
+1	However	however	ADV	B	_	0	_	_	_
 2	,	,	PUNCT	FF	_	1	punct	_	_
 3	for	for	ADP	E	_	4	case	_	_
-4	France	France	PROPN	SP	_	_	_	_	_
-5	two	two	NUM	N	NumType=Card	_	_	_	_
-6	base	base	ADJ	A	Degree=Pos	_	_	_	_
+4	France	France	PROPN	SP	_	1	_	_	_
+5	two	two	NUM	N	NumType=Card	1	_	_	_
+6	base	base	ADJ	A	Degree=Pos	1	_	_	_
 7	areas	area	NOUN	S	Number=Plur	6	amod	_	_
 8	are	be	AUX	VA	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	9	aux:pass	_	_
 9	established	establish	VERB	V	Tense=Past|VerbForm=Part	7	acl	_	_
@@ -2599,8 +2599,8 @@
 20	.	.	PUNCT	FS	_	3	punct	_	_
 
 1	Such	such	DET	DD	PronType=Dem	2	det	_	_
-2	companies	company	NOUN	S	Number=Plur	_	_	_	_
-3	bring	bring	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	_	_	_	_
+2	companies	company	NOUN	S	Number=Plur	0	_	_	_
+3	bring	bring	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	2	_	_	_
 4	technologically	technologically	ADV	B	_	3	advmod	_	_
 5	advanced	advanced	ADJ	A	Degree=Pos	3	conj	_	_
 6	imports	import	NOUN	S	Number=Plur	3	obl	_	_
@@ -2678,12 +2678,12 @@
 
 1	In	in	ADP	E	_	3	case	_	_
 2	the	the	DET	RD	Definite=Def|PronType=Art	3	det	_	_
-3	end	end	NOUN	S	Number=Sing	_	_	_	_
+3	end	end	NOUN	S	Number=Sing	0	_	_	_
 4	,	,	PUNCT	FF	_	3	punct	_	_
-5	however	however	ADV	B	_	_	_	_	_
+5	however	however	ADV	B	_	3	_	_	_
 6	,	,	PUNCT	FF	_	5	punct	_	_
 7	this	this	DET	DD	Number=Sing|PronType=Dem	8	det	_	_
-8	codependency	codependency	NOUN	S	Gender=Fem|Number=Sing	_	_	_	_
+8	codependency	codependency	NOUN	S	Gender=Fem|Number=Sing	3	_	_	_
 9	was	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	11	cop	_	_
 10	a	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	11	det	_	_
 11	marriage	marriage	NOUN	S	Number=Sing	8	nsubj	_	_
@@ -2720,8 +2720,8 @@
 23	higher	higher	ADJ	A	Degree=Cmp	24	None	_	_
 24	inflation	inflation	NOUN	S	Number=Sing	22	obl	_	_
 25	,	,	PUNCT	FF	_	22	None	_	_
-26	rising	rise	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	_	_	_	_
-27	interest	interest	NOUN	S	Number=Sing	_	_	_	_
+26	rising	rise	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	3	_	_	_
+27	interest	interest	NOUN	S	Number=Sing	3	_	_	_
 28	rates	rate	NOUN	S	Number=Plur	27	nmod	_	_
 29	,	,	PUNCT	FF	_	33	punct	_	_
 30	and	and	CCONJ	CC	_	33	cc	_	_
@@ -2735,11 +2735,11 @@
 3	likely	likely	ADJ	A	Degree=Pos	4	amod	_	_
 4	answer	answer	NOUN	S	Number=Sing	6	nsubj	_	_
 5	is	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
-6	yes	yes	INTJ	_	_	_	_	_	_
+6	yes	yes	INTJ	_	_	0	_	_	_
 7	,	,	PUNCT	FF	_	6	punct	_	_
 8	the	the	DET	RD	Definite=Def|PronType=Art	9	det	_	_
 9	downside	downside	NOUN	S	Number=Sing	10	None	_	_
-10	risks	risk	NOUN	S	Number=Plur	_	_	_	_
+10	risks	risk	NOUN	S	Number=Plur	6	_	_	_
 11	seem	seem	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	10	nsubj	_	_
 12	higher	higher	ADJ	A	Degree=Cmp	15	None	_	_
 13	than	than	ADP	E	_	14	None	_	_
@@ -2838,7 +2838,7 @@
 12	community	community	NOUN	S	Number=Sing	8	nmod	_	_
 13	to	to	PART	PART	_	14	mark	_	_
 14	relay	relay	VERB	V	VerbForm=Inf	8	None	_	_
-15	relevant	relevant	ADJ	A	Degree=Pos	_	_	_	_
+15	relevant	relevant	ADJ	A	Degree=Pos	2	_	_	_
 16	data	datum	NOUN	S	Number=Plur	15	amod	_	_
 17	to	to	ADP	E	_	18	case	_	_
 18	decision	decision	NOUN	S	Number=Sing	15	obl	_	_
@@ -2850,7 +2850,7 @@
 2	South	South	PROPN	SP	_	5	nsubj	_	_
 3	Korea	Korea	PROPN	SP	_	2	flat	_	_
 4	,	,	PUNCT	FF	_	2	punct	_	_
-5	Japan	Japan	PROPN	SP	_	_	_	_	_
+5	Japan	Japan	PROPN	SP	_	0	_	_	_
 6	,	,	PUNCT	FF	_	8	None	_	_
 7	and	and	CCONJ	CC	_	8	advmod	_	_
 8	elsewhere	elsewhere	ADV	B	_	5	advmod	_	_
@@ -2858,7 +2858,7 @@
 10	developing	develop	VERB	V	VerbForm=Ger	5	obl	_	_
 11	and	and	CCONJ	CC	_	12	cc	_	_
 12	maximizing	maximize	VERB	V	VerbForm=Ger	5	acl	_	_
-13	women	women	NOUN	S	Gender=Fem|Number=Sing	_	_	_	_
+13	women	women	NOUN	S	Gender=Fem|Number=Sing	5	_	_	_
 14	's	's	PART	PART	_	13	case	_	_
 15	potential	potential	NOUN	S	Number=Sing	13	nmod	_	_
 16	will	will	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	17	aux	_	_
@@ -2963,11 +2963,11 @@
 4	reforms	reform	NOUN	S	Number=Plur	7	nsubj	_	_
 5	has	have	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	aux	_	_
 6	been	be	AUX	VA	Tense=Past|VerbForm=Part	7	aux:pass	_	_
-7	agreed	agree	VERB	V	Tense=Past|VerbForm=Part	_	_	_	_
+7	agreed	agree	VERB	V	Tense=Past|VerbForm=Part	0	_	_	_
 8	.	.	PUNCT	FS	_	7	punct	_	_
 
 1	In	in	ADP	E	_	2	case	_	_
-2	effect	effect	NOUN	S	Number=Sing	_	_	_	_
+2	effect	effect	NOUN	S	Number=Sing	0	_	_	_
 3	,	,	PUNCT	FF	_	2	punct	_	_
 4	the	the	DET	RD	Definite=Def|PronType=Art	5	det	_	_
 5	administration	administration	NOUN	S	Number=Sing	6	nsubj	_	_
@@ -2996,7 +2996,7 @@
 
 1	The	the	DET	RD	Definite=Def|PronType=Art	3	det	_	_
 2	latest	latest	ADJ	A	Degree=Sup	3	amod	_	_
-3	indications	indication	NOUN	S	Number=Plur	_	_	_	_
+3	indications	indication	NOUN	S	Number=Plur	0	_	_	_
 4	are	be	AUX	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	12	aux	_	_
 5	that	that	SCONJ	CS	_	12	mark	_	_
 6	the	the	DET	RD	Definite=Def|PronType=Art	7	det	_	_
@@ -3010,7 +3010,7 @@
 
 1	Not	not	PART	PART	Polarity=Neg	3	advmod	_	_
 2	an	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	3	det	_	_
-3	inch	inch	NOUN	S	Number=Sing	_	_	_	_
+3	inch	inch	NOUN	S	Number=Sing	0	_	_	_
 4	.	.	PUNCT	FS	_	3	punct	_	_
 
 1	And	and	CCONJ	CC	_	2	cc	_	_
@@ -3056,7 +3056,7 @@
 41	designed	design	VERB	V	Tense=Past|VerbForm=Part	40	acl	_	_
 42	to	to	PART	PART	_	43	mark	_	_
 43	undermine	undermine	VERB	V	VerbForm=Inf	37	nsubj	_	_
-44	Western	western	ADJ	A	Degree=Pos	_	_	_	_
+44	Western	western	ADJ	A	Degree=Pos	6	_	_	_
 45	resolve	resolve	NOUN	S	Number=Sing	44	amod	_	_
 46	.	.	PUNCT	FS	_	44	None	_	_
 
@@ -3116,9 +3116,9 @@
 12	political	politic	ADJ	A	Degree=Pos	13	amod	_	_
 13	commitment	commitment	NOUN	S	Number=Sing	10	obj	_	_
 14	–	–	PUNCT	FF	_	13	punct	_	_
-15	and	and	CCONJ	CC	_	_	_	_	_
+15	and	and	CCONJ	CC	_	10	_	_	_
 16	considerable	considerable	ADJ	A	Degree=Pos	17	amod	_	_
-17	legwork	legwork	NOUN	S	Gender=Fem|Number=Sing	_	_	_	_
+17	legwork	legwork	NOUN	S	Gender=Fem|Number=Sing	10	_	_	_
 18	.	.	PUNCT	FS	_	17	None	_	_
 
 1	His	his	DET	AP	Poss=Yes|PronType=Prs	2	nmod:poss	_	_
@@ -3155,7 +3155,7 @@
 
 1	A	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	3	det	_	_
 2	symbolic	symbolic	ADJ	A	Degree=Pos	3	amod	_	_
-3	inheritance	inheritance	NOUN	S	Number=Sing	_	_	_	_
+3	inheritance	inheritance	NOUN	S	Number=Sing	0	_	_	_
 4	.	.	PUNCT	FS	_	3	punct	_	_
 
 1	In	in	ADP	E	_	3	case	_	_
@@ -3176,7 +3176,7 @@
 16	.	.	PUNCT	FS	_	7	punct	_	_
 
 1	Their	their	DET	AP	Poss=Yes|PronType=Prs	2	nmod:poss	_	_
-2	length	length	NOUN	S	Number=Sing	_	_	_	_
+2	length	length	NOUN	S	Number=Sing	0	_	_	_
 3	was	be	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	5	aux:pass	_	_
 4	not	not	PART	PART	Polarity=Neg	5	advmod	_	_
 5	predetermined	predetermine	VERB	V	Tense=Past|VerbForm=Part	2	obl	_	_
@@ -3230,7 +3230,7 @@
 23	which	which	PRON	PR	PronType=Rel	24	None	_	_
 24	nourished	nourish	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	26	nsubj	_	_
 25	his	his	DET	AP	Poss=Yes|PronType=Prs	26	nmod:poss	_	_
-26	writing	writing	NOUN	S	Number=Sing	_	_	_	_
+26	writing	writing	NOUN	S	Number=Sing	0	_	_	_
 27	.	.	PUNCT	FS	_	26	punct	_	_
 
 1	His	his	DET	AP	Poss=Yes|PronType=Prs	2	nmod:poss	_	_
@@ -3320,7 +3320,7 @@
 
 1	"	"	PUNCT	FB	_	3	punct	_	_
 2	The	the	DET	RD	Definite=Def|PronType=Art	3	det	_	_
-3	artist	artist	NOUN	S	Number=Sing	_	_	_	_
+3	artist	artist	NOUN	S	Number=Sing	0	_	_	_
 4	of	of	ADP	E	_	6	case	_	_
 5	the	the	DET	RD	Definite=Def|PronType=Art	6	det	_	_
 6	Comédie	Comédie	X	SW	Foreign=Yes	3	nmod	_	_
@@ -3353,7 +3353,7 @@
 12	Walter	Walter	PROPN	SP	_	10	conj	_	_
 13	Benjamin	Benjamin	PROPN	SP	_	12	flat	_	_
 14	and	and	CCONJ	CC	_	15	cc	_	_
-15	Camille	Camille	PROPN	SP	_	_	_	_	_
+15	Camille	Camille	PROPN	SP	_	4	_	_	_
 16	Paglia	Paglia	PROPN	SP	_	15	nmod	_	_
 17	.	.	PUNCT	FS	_	15	None	_	_
 
@@ -3375,7 +3375,7 @@
 16	of	of	ADP	E	_	17	case	_	_
 17	performances	performance	NOUN	S	Number=Plur	15	nmod	_	_
 18	show	show	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	9	advcl	_	_
-19	that	that	SCONJ	CS	_	_	_	_	_
+19	that	that	SCONJ	CS	_	4	_	_	_
 20	several	several	PRON	PI	PronType=Ind	28	nmod	_	_
 21	of	of	ADP	E	_	23	case	_	_
 22	his	his	DET	AP	Poss=Yes|PronType=Prs	23	nmod:poss	_	_
@@ -3384,7 +3384,7 @@
 25	on	on	ADP	E	_	28	case	_	_
 26	the	the	DET	RD	Definite=Def|PronType=Art	28	det	_	_
 27	London	London	PROPN	SP	_	28	nmod	_	_
-28	stage	stage	NOUN	S	Number=Sing	_	_	_	_
+28	stage	stage	NOUN	S	Number=Sing	4	_	_	_
 29	by	by	ADP	E	_	30	case	_	_
 30	1592	1592	NUM	N	NumType=Card	28	nummod	_	_
 31	.	.	PUNCT	FS	_	28	None	_	_
@@ -3461,7 +3461,7 @@
 21	.	.	PUNCT	FS	_	2	punct	_	_
 
 1	After	after	ADP	E	_	2	case	_	_
-2	Hamlet	Hamlet	PROPN	SP	_	_	_	_	_
+2	Hamlet	Hamlet	PROPN	SP	_	0	_	_	_
 3	,	,	PUNCT	FF	_	2	punct	_	_
 4	Shakespeare	Shakespeare	PROPN	SP	_	5	nsubj	_	_
 5	varied	vary	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
@@ -3470,7 +3470,7 @@
 8	style	style	NOUN	S	Number=Sing	5	obl	_	_
 9	further	further	ADV	B	_	8	None	_	_
 10	,	,	PUNCT	FF	_	5	None	_	_
-11	particularly	particularly	ADV	B	_	_	_	_	_
+11	particularly	particularly	ADV	B	_	2	_	_	_
 12	in	in	ADP	E	_	16	case	_	_
 13	the	the	DET	RD	Definite=Def|PronType=Art	16	det	_	_
 14	more	more	ADV	B	Degree=Cmp	16	advmod	_	_
@@ -3512,12 +3512,12 @@
 5	and	and	CCONJ	CC	_	8	cc	_	_
 6	19	19	NUM	N	NumType=Card	8	nummod	_	_
 7	th	th	ADJ	A	Degree=Pos	6	amod	_	_
-8	centuries	century	NOUN	S	Number=Plur	_	_	_	_
+8	centuries	century	NOUN	S	Number=Plur	0	_	_	_
 9	,	,	PUNCT	FF	_	8	punct	_	_
 10	his	his	DET	AP	Poss=Yes|PronType=Prs	11	nmod:poss	_	_
 11	reputation	reputation	NOUN	S	Number=Sing	13	None	_	_
 12	also	also	ADV	B	_	13	advmod	_	_
-13	spread	spread	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	_	_	_	_
+13	spread	spread	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	8	_	_	_
 14	abroad	abroad	ADV	B	_	13	advmod	_	_
 15	.	.	PUNCT	FS	_	13	None	_	_
 
@@ -3552,9 +3552,9 @@
 29	authorship	authorship	NOUN	S	Number=Sing	26	nmod	_	_
 30	,	,	PUNCT	FF	_	7	punct	_	_
 31	continues	continue	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
-32	into	into	ADP	E	_	_	_	_	_
-33	the	the	DET	RD	Definite=Def|PronType=Art	_	_	_	_
-34	21	21	NUM	N	NumType=Card	_	_	_	_
+32	into	into	ADP	E	_	31	_	_	_
+33	the	the	DET	RD	Definite=Def|PronType=Art	31	_	_	_
+34	21	21	NUM	N	NumType=Card	31	_	_	_
 35	st	st	ADJ	A	Degree=Pos	34	None	_	_
 36	century	century	NOUN	S	Number=Sing	35	amod	_	_
 37	.	.	PUNCT	FS	_	34	None	_	_

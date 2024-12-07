@@ -71,7 +71,7 @@ else:
 # 4. Save the parsing results of the test set in CoNLLU format for further analysis.
 
 print("Starting inference process.")
-make_inferences = True
+make_inferences = False
 corruptedPath = "corrupted_inferences.conllu"
 
 if make_inferences:
@@ -95,4 +95,7 @@ inferences = reader.read_conllu_file(corruptedPath, inference=False)
 
 p = PostProcessor()
 trees = p.postprocess(corruptedPath)
-reader.write_conllu_file("inferences.conllu", inferences)
+reader.write_conllu_file("inferences.conllu", trees)
+
+print("Readdy for evaluation with command:")
+print("python conll18_ud_eval.py en_partut-ud-test_clean.conllu inferences.conllu -v")
