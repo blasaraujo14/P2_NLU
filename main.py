@@ -40,20 +40,18 @@ print ("Total dev trees after removing non-projective sentences", len(dev_trees)
 #Create an instance of the ArcEager
 arc_eager = ArcEager()
 
-print ("\n ------ TODO: Implement the rest of the assignment ------")
-
-# TODO: Complete the ArcEager algorithm class.
+# Complete the ArcEager algorithm class.
 # 1. Implement the 'oracle' function and auxiliary functions to determine the correct parser actions.
 #    Note: The SHIFT action is already implemented as an example.
 #    Additional Note: The 'create_initial_state()', 'final_state()', and 'gold_arcs()' functions are already implemented.
 # 2. Use the 'oracle' function in ArcEager to generate all training samples, creating a dataset for training the neural model.
 # 3. Utilize the same 'oracle' function to generate development samples for model tuning and evaluation.
 
-# TODO: Implement the 'state_to_feats' function in the Sample class.
+# Implement the 'state_to_feats' function in the Sample class.
 # This function should convert the current parser state into a list of features for use by the neural model classifier.
 
 print("Getting the sample datasets.")
-build_datasets = False
+build_datasets = True
 
 if build_datasets:
     samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
@@ -64,33 +62,36 @@ if build_datasets:
 else:
     samplesT, samplesD = np.load("samplesTrain.npy", allow_pickle=True), np.load("samplesDev.npy", allow_pickle=True)
 
-# TODO: Define and implement the neural model in the 'model.py' module.
+# Define and implement the neural model in the 'model.py' module.
 # 1. Train the model on the generated training dataset.
 # 2. Evaluate the model's performance using the development dataset.
 # 3. Conduct inference on the test set with the trained model.
 # 4. Save the parsing results of the test set in CoNLLU format for further analysis.
 
 print("Starting inference process.")
-make_inferences = False
+make_inferences = True
 corruptedPath = "corrupted_inferences.conllu"
 
 if make_inferences:
     model = ParserMLP(epochs=10)
 
     model.train(samplesT, samplesD)
+
+    print("Training finished. Final validation dataset evaluation:")
     model.evaluate(samplesD)
 
-    # make inferences and writing them in CoNLLU format.
+    print("Running test dataset inference vertically, this may take a while.")
+    # make inferences and save them in CoNLLU format.
     inferences = model.run(test_trees)
     reader.write_conllu_file(corruptedPath, inferences)
 
-# TODO: Utilize the 'postprocessor' module (already implemented).
+# Utilize the 'postprocessor' module (already implemented).
 # 1. Read the output saved in the CoNLLU file and address any issues with ill-formed trees.
 # 2. Specify the file path: path = "<YOUR_PATH_TO_OUTPUT_FILE>"
 # 3. Process the file: trees = postprocessor.postprocess(path)
 # 4. Save the processed trees to a new output file.
 
-print("Post-processing inferences.")
+print("Post-processing potentially corrupted inferences...")
 inferences = reader.read_conllu_file(corruptedPath, inference=False)
 
 p = PostProcessor()
