@@ -75,6 +75,9 @@ class ParserMLP:
         #return [(action, dep) for action, dep in zip(actions, deps)]
         targets = tf.concat([tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(deps)], axis=-1)
         return (tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(deps))
+
+    def buildFeatures(self, feats):
+        return tf.convert_to_tensor([[self.featsEncoding.get(feat, 0) for feat in features] for features in feats])
     
     def train(self, training_samples: list['Sample'], dev_samples: list['Sample']):
         """
@@ -89,28 +92,33 @@ class ParserMLP:
         """
         nbuffer_feats = 2; nstack_feats = 2
 
-        featsTrain = tf.convert_to_tensor([' '.join(sample.state_to_feats(nbuffer_feats, nstack_feats)) for sample in training_samples])
+        featsTrain = np.array([sample.state_to_feats(nbuffer_feats, nstack_feats) for sample in training_samples])
         targetsTrain = np.array([[sample.transition.action, sample.transition.dependency] for sample in training_samples])
 
-        featsDev = tf.convert_to_tensor([' '.join(sample.state_to_feats(nbuffer_feats, nstack_feats)) for sample in dev_samples])
+        featsDev = np.array([sample.state_to_feats(nbuffer_feats, nstack_feats) for sample in dev_samples])
         targetsDev = np.array([[sample.transition.action, sample.transition.dependency] for sample in dev_samples])
 
         codeActions = [sentence[0] for sentence in targetsTrain]
         codeDeps = [sentence[1] for sentence in targetsTrain]
         self.actionEncoding = self.buildEncoding(codeActions, 0)
         self.depEncoding = self.buildEncoding(codeDeps, 1)
+        self.featsEncoding = self.buildEncoding(np.reshape(featsTrain, -1), 1)
+        vocab_size = int(len(self.featsEncoding)/2) + 1
 
         targetsTrain = self.buildTargets(targetsTrain)
         targetsDev = self.buildTargets(targetsDev)
 
-        text_vectorizer = layers.TextVectorization(output_mode='int', output_sequence_length=2*(nbuffer_feats + nstack_feats))
-        text_vectorizer.adapt(featsTrain)
+        featsTrain = self.buildFeatures(featsTrain)
+        featsDev = self.buildFeatures(featsDev)
 
-        inputs = keras.Input(shape=(1,),dtype=tf.string)
-        x = text_vectorizer(inputs)
-        vocab_size = text_vectorizer.vocabulary_size()
+        #text_vectorizer = layers.TextVectorization(output_mode='int', output_sequence_length=2*(nbuffer_feats + nstack_feats))
+        #text_vectorizer.adapt(featsTrain)
 
-        x = layers.Embedding(input_dim=vocab_size, output_dim=self.word_emb_dim)(x)
+        inputs = keras.Input(shape=(8,),dtype=tf.int32)
+        #x = text_vectorizer(inputs)
+        #vocab_size = text_vectorizer.vocabulary_size()
+
+        x = layers.Embedding(input_dim=vocab_size, output_dim=self.word_emb_dim)(inputs)
         x = layers.Flatten()(x)
 
         xAction = layers.Dense(self.hidden_dim, activation='sigmoid')(x)
@@ -144,9 +152,10 @@ class ParserMLP:
         Parameters:
             samples (list[Sample]): A list of samples to evaluate the model's performance.
         """
-        inputs = tf.convert_to_tensor([' '.join(sample.state_to_feats()) for sample in samples])
+        inputs = np.array([sample.state_to_feats() for sample in samples])
         targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
         targets = self.buildTargets(targets)
+        inputs = self.buildFeatures(inputs)
         self.model.evaluate(inputs, targets)
         #raise NotImplementedError
     
@@ -208,9 +217,10 @@ class ParserMLP:
 
         cnt = 1
         while(len(states)!=0):
-            print("Iteration " + str(cnt)); cnt += 1
+            #print("Iteration " + str(cnt)); cnt += 1
 
-            feats = tf.convert_to_tensor([[' '.join(Sample(state, None).state_to_feats())] for state in states])
+            feats = np.array([Sample(state, None).state_to_feats() for state in states])
+            feats = self.buildFeatures(feats)
             actions, deps = self.model(feats)
             sorted_actions = np.argsort(actions, axis=-1)
             #print("Sorted indexes: " + str(sorted_actions))
