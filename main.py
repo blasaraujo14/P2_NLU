@@ -51,7 +51,7 @@ arc_eager = ArcEager()
 # This function should convert the current parser state into a list of features for use by the neural model classifier.
 
 print("Obtaining the sample datasets.")
-build_datasets = False
+build_datasets = True
 
 if build_datasets:
     samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
