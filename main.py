@@ -1,4 +1,4 @@
-
+import sys
 from conllu_reader import ConlluReader
 from algorithm import ArcEager
 from model import ParserMLP
@@ -51,7 +51,7 @@ arc_eager = ArcEager()
 # This function should convert the current parser state into a list of features for use by the neural model classifier.
 
 print("Obtaining the sample datasets.")
-build_datasets = True
+build_datasets = False
 
 if build_datasets:
     samplesT = np.concatenate([arc_eager.oracle(tree) for tree in train_trees], 0)
@@ -72,8 +72,34 @@ print("Starting inference process.")
 make_inferences = True
 corruptedPath = "corrupted_inferences.conllu"
 
+confs = []
+# configuration 1
+confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
+confs[0].setLearningRate(0.0005)
+# configuration 2
+confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
+confs[1].setLearningRate(0.0005)
+# configuration 3
+confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
+confs[2].setLearningRate(0.0005)
+# configuration 4
+confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
+confs[3].setLearningRate(0.0005)
+
+# determine configuration based on command line arguments
+conf = 1
+model = confs[1]
+if len(sys.argv) > 1 and sys.argv[1].startswith("conf="):
+    try:
+        conf = int(sys.argv[1][5:])
+        model = confs[conf-1]
+    except:
+        print("Desired configuration does not exist.")
+        conf = 1
+
+print(f"Using configuration {conf}.")
+
 if make_inferences:
-    model = ParserMLP(epochs=10)
 
     model.train(samplesT, samplesD)
 

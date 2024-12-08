@@ -47,6 +47,7 @@ class ParserMLP:
         self.hidden_dim = hidden_dim
         self.epoch = epochs
         self.batch_size = batch_size
+        self.lr = 0.0005
         """
         Initializes the ParserMLP class with the specified dimensions and training parameters.
 
@@ -57,6 +58,9 @@ class ParserMLP:
             batch_size (int): The batch size used during model training.
         """
         #raise NotImplementedError
+
+    def setLearningRate(self, lr):
+        self.lr = lr
 
     def buildEncoding(self, data, init):
         encoding = {}
@@ -69,11 +73,8 @@ class ParserMLP:
         return encoding
 
     def buildTargets(self, targets):
-        actions = tf.convert_to_tensor([self.actionEncoding[t[0]] for t in targets])
-        deps = tf.convert_to_tensor([self.depEncoding.get(t[1], 0) for t in targets])
-        
-        #return [(action, dep) for action, dep in zip(actions, deps)]
-        targets = tf.concat([tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(deps)], axis=-1)
+        actions = np.array([self.actionEncoding[t[0]] for t in targets])
+        deps = np.array([self.depEncoding.get(t[1], 0) for t in targets])
         return (tf.keras.utils.to_categorical(actions), tf.keras.utils.to_categorical(deps))
 
     def buildFeatures(self, feats):
@@ -111,12 +112,7 @@ class ParserMLP:
         featsTrain = self.buildFeatures(featsTrain)
         featsDev = self.buildFeatures(featsDev)
 
-        #text_vectorizer = layers.TextVectorization(output_mode='int', output_sequence_length=2*(nbuffer_feats + nstack_feats))
-        #text_vectorizer.adapt(featsTrain)
-
-        inputs = keras.Input(shape=(8,),dtype=tf.int32)
-        #x = text_vectorizer(inputs)
-        #vocab_size = text_vectorizer.vocabulary_size()
+        inputs = keras.Input(shape=(2 * (nbuffer_feats + nstack_feats),),dtype=tf.int32)
 
         x = layers.Embedding(input_dim=vocab_size, output_dim=self.word_emb_dim)(inputs)
         x = layers.Flatten()(x)
@@ -124,21 +120,30 @@ class ParserMLP:
         xAction = layers.Dense(self.hidden_dim, activation='sigmoid')(x)
         xDep = layers.Dense(self.hidden_dim, activation='sigmoid')(x)
 
-        outputsAction = layers.Dense(len(self.actionEncoding)/2, activation='softmax')(xAction)
-        outputsDep = layers.Dense(len(self.depEncoding)/2+1, activation='softmax')(xDep)
+        outputsAction = layers.Dense(int(len(self.actionEncoding)/2), activation='softmax')(xAction)
+        outputsDep = layers.Dense(int(len(self.depEncoding)/2+1), activation='softmax')(xDep)
         self.model = keras.Model(inputs=inputs, outputs=(outputsAction, outputsDep))
 
         self.model.summary()
 
-        self.model.compile(
-            optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005),
-            loss='categorical_crossentropy',
-            metrics=['accuracy']
-        )
+        # try needed for compatibility, earlier Tensorflow versions require different metrics argument
+        try:
+            self.model.compile(
+                optimizer=tf.keras.optimizers.Adam(learning_rate=self.lr),
+                loss='categorical_crossentropy',
+                metrics=['accuracy']
+            )
 
-        callback = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+            self.model.fit(featsTrain, targetsTrain, batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, targetsDev))
+        except: # if tensorflow is too new
+            self.model.compile(
+                optimizer=tf.keras.optimizers.Adam(learning_rate=self.lr),
+                loss='categorical_crossentropy',
+                metrics=['accuracy', 'accuracy']
+            )
 
-        self.model.fit(featsTrain, targetsTrain, batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, targetsDev), callbacks=[callback])
+            self.model.fit(featsTrain, targetsTrain, batch_size=self.batch_size, epochs=self.epoch, validation_data=(featsDev, targetsDev))
+
 
         #raise NotImplementedError
 
