@@ -74,21 +74,21 @@ corruptedPath = "corrupted_inferences.conllu"
 
 confs = []
 # configuration 1
-confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
-confs[0].setLearningRate(0.0005)
+confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 256))
+confs[0].setLearningRate(0.001)
 # configuration 2
 confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
-confs[1].setLearningRate(0.0005)
+confs[1].setLearningRate(0.001)
 # configuration 3
 confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
-confs[2].setLearningRate(0.0005)
+confs[2].setLearningRate(0.05)
 # configuration 4
-confs.append(ParserMLP(epochs=10, word_emb_dim = 100, hidden_dim = 64))
-confs[3].setLearningRate(0.0005)
+confs.append(ParserMLP(epochs=10, word_emb_dim = 60, hidden_dim = 16))
+confs[3].setLearningRate(0.001)
 
 # determine configuration based on command line arguments
 conf = 1
-model = confs[1]
+model = confs[0]
 if len(sys.argv) > 1 and sys.argv[1].startswith("conf="):
     try:
         conf = int(sys.argv[1][5:])
