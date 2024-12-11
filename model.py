@@ -93,12 +93,14 @@ class ParserMLP:
         """
         nbuffer_feats = 2; nstack_feats = 2
 
+        #extracting the data from the samples for features and targets
         featsTrain = np.array([sample.state_to_feats(nbuffer_feats, nstack_feats) for sample in training_samples])
         targetsTrain = np.array([[sample.transition.action, sample.transition.dependency] for sample in training_samples])
 
         featsDev = np.array([sample.state_to_feats(nbuffer_feats, nstack_feats) for sample in dev_samples])
         targetsDev = np.array([[sample.transition.action, sample.transition.dependency] for sample in dev_samples])
 
+        # encoding the many different string labels in integers
         codeActions = [sentence[0] for sentence in targetsTrain]
         codeDeps = [sentence[1] for sentence in targetsTrain]
         self.actionEncoding = self.buildEncoding(codeActions, 0)
@@ -112,6 +114,7 @@ class ParserMLP:
         featsTrain = self.buildFeatures(featsTrain)
         featsDev = self.buildFeatures(featsDev)
 
+        # building the model architecture
         inputs = keras.Input(shape=(2 * (nbuffer_feats + nstack_feats),),dtype=tf.int32)
 
         x = layers.Embedding(input_dim=vocab_size, output_dim=self.word_emb_dim)(inputs)
@@ -126,6 +129,7 @@ class ParserMLP:
 
         self.model.summary()
 
+        # model fitting
         # try needed for compatibility, earlier Tensorflow versions require different metrics argument
         try:
             self.model.compile(
@@ -157,10 +161,13 @@ class ParserMLP:
         Parameters:
             samples (list[Sample]): A list of samples to evaluate the model's performance.
         """
+        # string label data is retrieved and encoded into integers
         inputs = np.array([sample.state_to_feats() for sample in samples])
         targets = np.array([[sample.transition.action, sample.transition.dependency] for sample in samples])
         targets = self.buildTargets(targets)
         inputs = self.buildFeatures(inputs)
+
+        # we evaluate the model once
         self.model.evaluate(inputs, targets)
         #raise NotImplementedError
     
@@ -177,6 +184,7 @@ class ParserMLP:
         """
         arc_eager = ArcEager()
 
+        # origIndex will provide the original index of a sentence given its state representation
         origIndex = dict()
         def createStateAndIndex(i):
             state = arc_eager.create_initial_state(sents[i])
@@ -185,6 +193,7 @@ class ParserMLP:
 
         states = [createStateAndIndex(i) for i in range(len(sents))]
 
+        # function to convert categorical model output to original string labels
         def decodeTargets(targets, encoding):
             # from categorical to original encoding
             originalEncoding = tf.argmax(targets, axis=1)
@@ -198,6 +207,7 @@ class ParserMLP:
                         elems=originalEncoding,
                         fn_output_signature=tf.string)
         
+        # function that discards impossible actions and picks most probable ones
         def selectActions(sortedActions, index):
             action = ''
             for i in sortedActions[::-1]:
@@ -215,7 +225,9 @@ class ParserMLP:
                     break
             return action
 
-        transLists = [[] for i in range(len(states))]
+        # at the end of execution will hold the list of model predicted transitions for each sentence
+        transLists = [[] for i in range(len(sents))]
+        # applies transition to state and appends transition to list corresponding to a sentence
         def registerTransition(trans, state):
             arc_eager.apply_transition(state, trans)
             transLists[origIndex[state]].append(trans)
@@ -223,26 +235,32 @@ class ParserMLP:
         cnt = 1
         while(len(states)!=0):
             #print("Iteration " + str(cnt)); cnt += 1
-
+            # get string label features for each sample and encoding them in integers
             feats = np.array([Sample(state, None).state_to_feats() for state in states])
             feats = self.buildFeatures(feats)
+
+            # running inference and sorting actions by probability
             actions, deps = self.model(feats)
             sorted_actions = np.argsort(actions, axis=-1)
             #print("Sorted indexes: " + str(sorted_actions))
 
+            # action selection/discarding
             selected_actions = tf.map_fn(
                 fn=lambda x: selectActions(x[0], x[1]),
                 elems=(sorted_actions, tf.range(len(states))),
                 fn_output_signature=tf.string)
 
+            # decoding categorical model output
             deps = list(decodeTargets(deps, self.depEncoding).numpy())
             deps = [dep.decode('utf-8') for dep in deps]
 
+            # building a transition with said output and registering it for that state's sentence
             [registerTransition(Transition(selected_actions[i], deps[i]), states[i]) for i in range(len(states))]
 
             # remove final states
             states = [state for state in states if not arc_eager.final_state(state)]
 
+        # function that takes a sentence of tokens and a list transitions, and applied the dependencies to it
         def toCoNLLU(sent: list['Token'], trans: list['Transition']) -> list['Token']:
             state = arc_eager.create_initial_state(sent)
             currentArcs = set()
@@ -267,6 +285,7 @@ class ParserMLP:
 
             return sent
 
+        # return sentences with dependency information from model predictions
         return [toCoNLLU(sents[i], transLists[i]) for i in range(len(sents))]
 
         # Main Steps for Processing Sentences:
